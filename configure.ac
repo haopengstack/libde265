@@ -2,11 +2,11 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([libde265], [1.0.2], [farin@struktur.de])
+AC_INIT([libde265], [1.0.3], [farin@struktur.de])
 AC_CONFIG_SRCDIR([libde265/de265.cc])
 AC_CONFIG_HEADERS([config.h])
 
-NUMERIC_VERSION=0x01000200 # Numeric representation of the version (A.B.C[.D] = 0xAABBCCDD)
+NUMERIC_VERSION=0x01000300 # Numeric representation of the version (A.B.C[.D] = 0xAABBCCDD)
 AC_SUBST(NUMERIC_VERSION)
 
 LIBDE265_CURRENT=0
@@ -167,6 +167,14 @@ if eval "test x$has_nullptr = xno"; then
   AC_DEFINE(NEED_NULLPTR_FALLBACK,1,[Define to 1 if a fallback for "nullptr" is required.])
 fi
 AC_MSG_RESULT([$has_nullptr])
+
+
+
+AC_ARG_ENABLE([encoder], AS_HELP_STRING([--disable-encoder], [Do not build encoder.]))
+if eval "test x$enable_encoder = x"      ; then enable_encoder=yes ; fi
+
+AM_CONDITIONAL([ENABLE_ENCODER], [test x"$enable_encoder" = x"yes"])
+
 
 # --- machine dependent optimizations ---
 
@@ -355,6 +363,7 @@ AM_CONDITIONAL([ENABLE_SHERLOCK265], [test "x$enable_sherlock265" != "xno"])
 AC_MSG_NOTICE([---------------------------------------])
 AC_MSG_NOTICE([Building dec265 example: $enable_dec265])
 AC_MSG_NOTICE([Building sherlock265 example: $enable_sherlock265])
+AC_MSG_NOTICE([Building encoder: $enable_encoder])
 AC_MSG_NOTICE([---------------------------------------])
 
 AC_CONFIG_FILES([Makefile])
